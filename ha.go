@@ -1,9 +1,11 @@
-package HA
+package main
 
 import (
 	"HA/pkg/config"
+	"HA/pkg/log"
 	"flag"
 	"fmt"
+	"os"
 )
 
 var (
@@ -13,7 +15,11 @@ var (
 func main() {
 	// 1. init config
 	flag.Parse()
-	raftConfig := config.NewConfiguration(*raftConf)
+	_ = log.SetFormat(log.TextFormat)
+	raftConfig, err := config.NewConfiguration(*raftConf)
+	if err != nil {
+		os.Exit(1)
+	}
 	fmt.Println(raftConfig)
 
 	// 2. run raft

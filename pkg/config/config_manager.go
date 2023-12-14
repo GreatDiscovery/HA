@@ -9,10 +9,14 @@ import (
 )
 
 type Configuration struct {
+	Debug         bool
+	ListenAddress string
+	ListenSocket  string
+	RaftEnable    bool
 }
 
-func NewConfiguration(fileName string) (*Configuration, error) {
-	config := &Configuration{}
+func NewConfiguration(fileName string) (Configuration, error) {
+	config := Configuration{}
 	todo := context.TODO()
 	if fileName == "" {
 		return config, errors.New("empty fileName")
@@ -23,9 +27,9 @@ func NewConfiguration(fileName string) (*Configuration, error) {
 	}
 	log.G(todo).Infof("start read file %s", fileName)
 	decoder := json.NewDecoder(file)
-	err = decoder.Decode(config)
+	err = decoder.Decode(&config)
 	if err != nil {
 		log.G(todo).Error("read file failed", err)
 	}
-	return &Configuration{}, nil
+	return config, nil
 }

@@ -82,6 +82,7 @@ const (
 	// logging.
 	DebugLevel Level = logrus.DebugLevel
 
+	Debug = "debug"
 	// InfoLevel level. General operational entries about what's going on
 	// inside the application.
 	InfoLevel Level = logrus.InfoLevel

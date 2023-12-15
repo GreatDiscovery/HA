@@ -1,6 +1,8 @@
 package http
 
 import (
+	"HA/pkg/log"
+	"context"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -11,6 +13,7 @@ type ListenPort int
 var db = make(map[string]string)
 
 func Setup(listenPort ListenPort) {
+	log.G(context.TODO()).Info("starting HTTP listener")
 	r := setupRouter()
 	// Listen and Server in 0.0.0.0:8080
 	err := r.Run(fmt.Sprintf(":%v", listenPort))

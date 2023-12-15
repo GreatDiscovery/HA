@@ -6,11 +6,11 @@ import (
 )
 
 type logManager struct {
-	service.SetUpConfig
+	service.MangerConfig
 	Level string
 }
 
-func NewLogManager(config config.Configuration) service.LogManager {
+func NewLogManager(config config.Configuration) service.Manager {
 	logManager := &logManager{}
 	if config.Debug {
 		logManager.Level = Debug

@@ -5,22 +5,16 @@ import (
 	"sync"
 )
 
-type SetUp interface {
+// Manager manage your own process, like log/monitor/health etc.
+// The methods should be thread-safe.
+type Manager interface {
 	// SetUp manager start only once
 	SetUp()
 }
 
-type SetUpConfig struct {
+type MangerConfig struct {
 	sync.Mutex
 	Initialized bool
-}
-
-// Manager manage your own process, like log/monitor/health etc.
-// The methods should be thread-safe.
-type Manager interface {
-	ProcessManager
-	DiscoveryManager
-	LogManager
 }
 
 type ProcessManager interface {
@@ -36,5 +30,4 @@ type DiscoveryManager interface {
 }
 
 type LogManager interface {
-	SetUp
 }

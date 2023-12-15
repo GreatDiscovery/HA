@@ -27,8 +27,7 @@ func main() {
 
 	logManager := log.NewLogManager(raftConfig)
 	logManager.SetUp()
-
-	log.G(root).Infof("%#v", raftConfig)
+	log.G(root).Infof("raftConfig: %v", raftConfig)
 
 	// 2. register self in period
 	_, err = register.NewProcessManager(raftConfig)

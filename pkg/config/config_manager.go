@@ -1,17 +1,15 @@
 package config
 
 import (
-	"HA/pkg/http"
-	"HA/pkg/log"
-	"context"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"os"
 )
 
 type Configuration struct {
 	Debug         bool
-	ListenAddress http.ListenPort
+	ListenAddress int
 	ListenSocket  string
 	RaftEnable    bool
 }
@@ -25,7 +23,6 @@ func (c *Configuration) check() error {
 
 func NewConfiguration(fileName string) (Configuration, error) {
 	config := Configuration{}
-	todo := context.TODO()
 	if fileName == "" {
 		return config, errors.New("empty fileName")
 	}
@@ -33,11 +30,11 @@ func NewConfiguration(fileName string) (Configuration, error) {
 	if err != nil {
 		return config, err
 	}
-	log.G(todo).Infof("start read file %s", fileName)
+	fmt.Printf("start read file %s\n", fileName)
 	decoder := json.NewDecoder(file)
 	err = decoder.Decode(&config)
 	if err != nil {
-		log.G(todo).Error("read file failed", err)
+		fmt.Println("read file failed", err)
 	}
 	err = config.check()
 	if err != nil {

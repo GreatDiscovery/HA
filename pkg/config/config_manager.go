@@ -1,6 +1,7 @@
 package config
 
 import (
+	"HA/pkg/http"
 	"HA/pkg/log"
 	"context"
 	"encoding/json"
@@ -10,9 +11,16 @@ import (
 
 type Configuration struct {
 	Debug         bool
-	ListenAddress string
+	ListenAddress http.ListenPort
 	ListenSocket  string
 	RaftEnable    bool
+}
+
+func (c *Configuration) check() error {
+	if c.ListenAddress == 0 {
+		return errors.New("invalid ListenAddress")
+	}
+	return nil
 }
 
 func NewConfiguration(fileName string) (Configuration, error) {
@@ -30,6 +38,10 @@ func NewConfiguration(fileName string) (Configuration, error) {
 	err = decoder.Decode(&config)
 	if err != nil {
 		log.G(todo).Error("read file failed", err)
+	}
+	err = config.check()
+	if err != nil {
+		return config, err
 	}
 	return config, nil
 }

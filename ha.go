@@ -2,6 +2,7 @@ package main
 
 import (
 	"HA/pkg/config"
+	"HA/pkg/http"
 	"HA/pkg/log"
 	"HA/pkg/register"
 	"context"
@@ -36,5 +37,5 @@ func main() {
 	}
 
 	// 3. web server start
-
+	http.Setup(raftConfig.ListenAddress)
 }

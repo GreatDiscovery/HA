@@ -1,7 +1,7 @@
 {
   "Debug": true,
   "EnableSyslog": false,
-  "ListenAddress": ":300NODE_ID_PLACEHOLDER",
+  "ListenAddress": 8080,
   "MySQLTopologyUser": "ci",
   "MySQLTopologyPassword": "ci",
   "BackendDB": "sqlite",

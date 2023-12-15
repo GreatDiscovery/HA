@@ -30,11 +30,8 @@ func main() {
 	log.G(root).Infof("raftConfig: %v", raftConfig)
 
 	// 2. register self in period
-	_, err = register.NewProcessManager(raftConfig)
-	if err != nil {
-		log.G(root).Error("registerManager init failed")
-		os.Exit(1)
-	}
+	processManager := register.NewProcessManager(raftConfig)
+	processManager.SetUp()
 
 	// 3. starting discovery
 	discoveryManager := discovery.NewDiscoveryManager(raftConfig)

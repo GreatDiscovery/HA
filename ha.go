@@ -6,6 +6,7 @@ import (
 	"HA/pkg/http"
 	"HA/pkg/log"
 	"HA/pkg/register"
+	"HA/pkg/service"
 	"context"
 	"flag"
 	"os"
@@ -20,6 +21,7 @@ func main() {
 	root := context.TODO()
 	// 1. init config
 	flag.Parse()
+	todo := context.TODO()
 	raftConfig, err := config.NewConfiguration(*raftConf)
 	if err != nil {
 		os.Exit(1)
@@ -32,6 +34,7 @@ func main() {
 	// 2. register self in period
 	processManager := register.NewProcessManager(raftConfig)
 	processManager.SetUp()
+	_ = processManager.(service.ProcessManager).Registering(todo)
 
 	// 3. starting discovery
 	discoveryManager := discovery.NewDiscoveryManager(raftConfig)

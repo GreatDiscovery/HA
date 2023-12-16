@@ -1,10 +1,10 @@
 package http
 
 import (
-	"HA/pkg/log"
 	"context"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"ha/pkg/log"
 	"net/http"
 )
 

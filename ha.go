@@ -1,13 +1,13 @@
 package main
 
 import (
-	"HA/pkg/config"
-	"HA/pkg/discovery"
-	"HA/pkg/http"
-	"HA/pkg/log"
-	"HA/pkg/register"
 	"context"
 	"flag"
+	"ha/pkg/config"
+	"ha/pkg/discovery"
+	"ha/pkg/http"
+	"ha/pkg/log"
+	"ha/pkg/register"
 	"os"
 )
 

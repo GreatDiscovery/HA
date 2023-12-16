@@ -1,10 +1,10 @@
 package discovery
 
 import (
-	"HA/pkg/config"
-	"HA/pkg/log"
-	"HA/pkg/service"
 	"context"
+	"ha/pkg/config"
+	"ha/pkg/log"
+	"ha/pkg/service"
 )
 
 type discoveryManager struct {

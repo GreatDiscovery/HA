@@ -1,8 +1,8 @@
 package log
 
 import (
-	"HA/pkg/config"
-	"HA/pkg/service"
+	"ha/pkg/config"
+	"ha/pkg/service"
 )
 
 type logManager struct {

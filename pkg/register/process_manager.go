@@ -10,7 +10,7 @@ import (
 type processManager struct {
 }
 
-func NewProcessManager(configuration config.Configuration) service.Manager {
+func NewProcessManager(configuration config.Configuration) service.ProcessManager {
 	return &processManager{}
 }
 

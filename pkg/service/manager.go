@@ -18,6 +18,7 @@ type MangerConfig struct {
 }
 
 type ProcessManager interface {
+	Manager
 	// Registering will continuously update the node_health table showing that the current process is still running.
 	Registering(ctx context.Context) error
 }
@@ -30,4 +31,5 @@ type DiscoveryManager interface {
 }
 
 type LogManager interface {
+	Manager
 }

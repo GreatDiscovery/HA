@@ -10,7 +10,7 @@ type logManager struct {
 	Level string
 }
 
-func NewLogManager(config config.Configuration) service.Manager {
+func NewLogManager(config config.Configuration) service.LogManager {
 	logManager := &logManager{}
 	if config.Debug {
 		logManager.Level = Debug

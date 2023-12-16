@@ -6,7 +6,6 @@ import (
 	"HA/pkg/http"
 	"HA/pkg/log"
 	"HA/pkg/register"
-	"HA/pkg/service"
 	"context"
 	"flag"
 	"os"
@@ -34,7 +33,7 @@ func main() {
 	// 2. register self in period
 	processManager := register.NewProcessManager(raftConfig)
 	processManager.SetUp()
-	_ = processManager.(service.ProcessManager).Registering(todo)
+	_ = processManager.Registering(todo)
 
 	// 3. starting discovery
 	discoveryManager := discovery.NewDiscoveryManager(raftConfig)

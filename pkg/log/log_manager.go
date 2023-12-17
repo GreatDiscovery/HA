@@ -30,3 +30,8 @@ func (l *logManager) SetUp() {
 	}
 	l.Initialized = true
 }
+
+func (l *logManager) Shutdown() {
+	//TODO implement me
+	panic("implement me")
+}

@@ -4,6 +4,7 @@ import (
 	"context"
 	"flag"
 	"ha/pkg/config"
+	"ha/pkg/cron"
 	"ha/pkg/discovery"
 	"ha/pkg/http"
 	"ha/pkg/log"
@@ -21,24 +22,28 @@ func main() {
 	// 1. init config
 	flag.Parse()
 	todo := context.TODO()
-	raftConfig, err := config.NewConfiguration(*raftConf)
+	configuration, err := config.NewConfiguration(*raftConf)
 	if err != nil {
 		os.Exit(1)
 	}
 
-	logManager := log.NewLogManager(raftConfig)
+	logManager := log.NewLogManager(configuration)
 	logManager.SetUp()
-	log.G(root).Infof("raftConfig: %v", raftConfig)
+	log.G(root).Infof("configuration: %v", configuration)
+
+	cronManager := cron.NewCronManager(configuration)
+	cronManager.SetUp()
+	defer cronManager.Shutdown()
 
 	// 2. register self in period
-	processManager := register.NewProcessManager(raftConfig)
+	processManager := register.NewProcessManager(configuration)
 	processManager.SetUp()
 	_ = processManager.Registering(todo)
 
 	// 3. starting discovery
-	discoveryManager := discovery.NewDiscoveryManager(raftConfig)
+	discoveryManager := discovery.NewDiscoveryManager(configuration)
 	discoveryManager.Discovery(root)
 
 	// 4. web server start
-	http.Setup(raftConfig.ListenAddress)
+	http.Setup(configuration.ListenAddress)
 }

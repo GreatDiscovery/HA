@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"errors"
 	"sync"
 )
 
@@ -10,12 +11,16 @@ import (
 type Manager interface {
 	// SetUp manager start only once
 	SetUp()
+	// Shutdown manager
+	Shutdown()
 }
 
 type MangerConfig struct {
 	sync.Mutex
 	Initialized bool
 }
+
+var UnInitialized = errors.New("service not initialized")
 
 type ProcessManager interface {
 	Manager
@@ -31,5 +36,9 @@ type DiscoveryManager interface {
 }
 
 type LogManager interface {
+	Manager
+}
+
+type CronManager interface {
 	Manager
 }

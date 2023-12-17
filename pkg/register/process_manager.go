@@ -18,6 +18,11 @@ func (p *processManager) SetUp() {
 	log.G(context.TODO()).Infof("starting processManager")
 }
 
+func (p *processManager) Shutdown() {
+	//TODO implement me
+	panic("implement me")
+}
+
 func (p *processManager) Registering(ctx context.Context) error {
 	return nil
 }

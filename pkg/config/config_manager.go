@@ -22,7 +22,7 @@ func (c *Configuration) check() error {
 }
 
 func NewConfiguration(fileName string) (Configuration, error) {
-	config := Configuration{}
+	config := *newConfiguration()
 	if fileName == "" {
 		return config, errors.New("empty fileName")
 	}
@@ -41,4 +41,13 @@ func NewConfiguration(fileName string) (Configuration, error) {
 		return config, err
 	}
 	return config, nil
+}
+
+func newConfiguration() *Configuration {
+	return &Configuration{
+		Debug:         false,
+		ListenAddress: 0,
+		ListenSocket:  "",
+		RaftEnable:    false,
+	}
 }

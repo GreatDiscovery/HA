@@ -11,7 +11,7 @@ type Configuration struct {
 	Debug         bool
 	ListenAddress int
 	ListenSocket  string
-	RaftEnable    bool
+	RaftEnabled   bool
 }
 
 func (c *Configuration) check() error {
@@ -48,6 +48,6 @@ func newConfiguration() *Configuration {
 		Debug:         false,
 		ListenAddress: 0,
 		ListenSocket:  "",
-		RaftEnable:    false,
+		RaftEnabled:   false,
 	}
 }

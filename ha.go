@@ -10,6 +10,8 @@ import (
 	"ha/pkg/log"
 	"ha/pkg/register"
 	"os"
+	"os/signal"
+	"syscall"
 )
 
 var (
@@ -27,23 +29,44 @@ func main() {
 		os.Exit(1)
 	}
 
+	// 2. setup managers
 	logManager := log.NewLogManager(configuration)
 	logManager.SetUp()
-	log.G(root).Infof("configuration: %v", configuration)
+	log.G(root).Infof("configuration: %+v", configuration)
+
+	// 3. process hook
+	go registerSignals(todo)
 
 	cronManager := cron.NewCronManager(configuration)
 	cronManager.SetUp()
 	defer cronManager.Shutdown()
 
-	// 2. register self in period
 	processManager := register.NewProcessManager(configuration)
 	processManager.SetUp()
 	_ = processManager.Registering(todo)
 
-	// 3. starting discovery
+	// 4. starting discovery
 	discoveryManager := discovery.NewDiscoveryManager(configuration)
 	discoveryManager.Discovery(root)
 
 	// 4. web server start
 	http.Setup(configuration.ListenAddress)
+}
+
+func registerSignals(ctx context.Context) {
+	c := make(chan os.Signal, 1)
+
+	signal.Notify(c, syscall.SIGHUP)
+	signal.Notify(c, syscall.SIGTERM)
+
+	for sig := range c {
+		switch sig {
+		case syscall.SIGHUP:
+			log.G(ctx).Info("Received SIGHUP. Reloading configuration")
+			//todo config.reload()
+		case syscall.SIGTERM:
+			log.G(ctx).Info("Received SIGTERM. Shutting down")
+			os.Exit(0)
+		}
+	}
 }

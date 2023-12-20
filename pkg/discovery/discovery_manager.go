@@ -20,14 +20,18 @@ func NewDiscoveryManager(configuration config.Configuration) service.DiscoveryMa
 	}
 }
 
-func (d *discoveryManager) Discovery(ctx context.Context) {
+func (d *discoveryManager) Discovery(ctx context.Context) error {
 	log.G(ctx).Info("starting auto discovery")
 	if !d.RaftEnabled {
 		log.G(ctx).Info("raft disabled")
-		return
+		return nil
 	}
 	raftConfig := raft.Config{
 		RaftBind: d.RaftBind,
 	}
-	raft.SetUp(ctx, raftConfig)
+	err := raft.SetUp(ctx, raftConfig)
+	if err != nil {
+		return err
+	}
+	return nil
 }

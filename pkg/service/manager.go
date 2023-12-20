@@ -32,7 +32,7 @@ type DiscoveryManager interface {
 	// Discovery starts an asynchronous infinite discovery process where instances are
 	// periodically investigated and their status captured, and long since unseen instances are
 	// purged and forgotten.
-	Discovery(ctx context.Context)
+	Discovery(ctx context.Context) error
 }
 
 type LogManager interface {

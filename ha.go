@@ -23,7 +23,7 @@ func main() {
 	root := context.TODO()
 	// 1. init config
 	flag.Parse()
-	todo := context.TODO()
+	todo := context.Background()
 	configuration, err := config.NewConfiguration(*raftConf)
 	if err != nil {
 		os.Exit(1)

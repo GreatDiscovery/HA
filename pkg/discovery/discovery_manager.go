@@ -10,11 +10,13 @@ import (
 
 type discoveryManager struct {
 	RaftEnabled bool
+	RaftBind    string
 }
 
 func NewDiscoveryManager(configuration config.Configuration) service.DiscoveryManager {
 	return &discoveryManager{
 		RaftEnabled: configuration.RaftEnabled,
+		RaftBind:    configuration.RaftBind,
 	}
 }
 
@@ -24,5 +26,8 @@ func (d *discoveryManager) Discovery(ctx context.Context) {
 		log.G(ctx).Info("raft disabled")
 		return
 	}
-	raft.SetUp(ctx)
+	raftConfig := raft.Config{
+		RaftBind: d.RaftBind,
+	}
+	raft.SetUp(ctx, raftConfig)
 }

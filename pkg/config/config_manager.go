@@ -13,6 +13,8 @@ type Configuration struct {
 	ListenSocket  string
 	RaftEnabled   bool
 	RaftBind      string
+	RaftDataDir   string
+	RaftNodes     []string
 }
 
 func (c *Configuration) check() error {

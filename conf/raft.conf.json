@@ -82,7 +82,7 @@
   "MasterFailoverLostInstancesDowntimeMinutes": 0,
   "PostponeReplicaRecoveryOnLagMinutes": 0,
   "RaftEnabled": true,
-  "RaftDataDir": "/tmp/orchestrator-NODE_ID_PLACEHOLDER",
+  "RaftDataDir": "/tmp/orchestrator-1",
   "RaftBind": "localhost:10001",
   "RaftNodes": [
     "127.0.0.1:10007",

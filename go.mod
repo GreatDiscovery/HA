@@ -3,6 +3,7 @@ module ha
 go 1.21
 
 require (
+	github.com/deckarep/golang-set/v2 v2.5.0
 	github.com/gin-gonic/gin v1.9.1
 	github.com/hashicorp/raft v1.6.0
 	github.com/robfig/cron/v3 v3.0.0

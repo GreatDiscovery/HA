@@ -58,7 +58,10 @@ func SetUp(ctx context.Context, config Discovery) error {
 		}
 		peerNode = append(peerNode, node)
 	}
-	store.SetUpRaft(peerNode)
+	err = store.SetUpRaft(peerNode)
+	if err != nil {
+		return err
+	}
 	return nil
 }
 

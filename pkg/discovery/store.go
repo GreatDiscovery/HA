@@ -4,22 +4,29 @@ import (
 	"fmt"
 	mapset "github.com/deckarep/golang-set/v2"
 	"github.com/hashicorp/raft"
+	boltdb "github.com/hashicorp/raft-boltdb"
+	"ha/pkg/config"
+	_const "ha/pkg/const"
+	"ha/pkg/log"
 	"net"
 	"os"
+	"path/filepath"
 	"strings"
 	"time"
 )
 
 type Store struct {
-	raftDir  string
-	raftBind string
-	raft     *raft.Raft
+	raftDir   string
+	raftBind  string
+	logRetain int
+	raft      *raft.Raft
 }
 
-func NewStore(raftDir string, raftBind string) *Store {
+func NewStore(configuration config.Configuration) *Store {
 	return &Store{
-		raftDir:  raftDir,
-		raftBind: raftBind,
+		raftDir:   configuration.RaftDataDir,
+		raftBind:  configuration.RaftBind,
+		logRetain: configuration.LogRetain,
 	}
 }
 
@@ -36,11 +43,33 @@ func (s *Store) SetUpRaft(peerNodes []string) error {
 		return err
 	}
 	peers := uniquePeer(peerNodes)
-
-	// todo delete
-	fmt.Println(config)
-	fmt.Println(transport)
 	fmt.Println(peers)
+
+	err = makeRaftDir(s.raftDir)
+	if err != nil {
+		return err
+	}
+
+	ldb, err := boltdb.NewBoltStore(filepath.Join(s.raftDir, "logs.dat"))
+	if err != nil {
+		return err
+	}
+	sdb, err := boltdb.NewBoltStore(filepath.Join(s.raftDir, "stable.dat"))
+	if err != nil {
+		return err
+	}
+	snapshotStore, err := raft.NewFileSnapshotStore(s.raftDir, s.logRetain, os.Stderr)
+	if err != nil {
+		log.G(_const.TODO).Errorf("create snapshot store error=%+v", err)
+		return err
+	}
+
+	raftInstance, err := raft.NewRaft(config, (*fsm)(s), ldb, sdb, snapshotStore, transport)
+	if err != nil {
+		return err
+	}
+	s.raft = raftInstance
+	log.G(_const.TODO).Info("raft created")
 	return nil
 }
 
@@ -56,4 +85,20 @@ func uniquePeer(peerNodes []string) []string {
 		uniquePeers = append(uniquePeers, noSpace)
 	}
 	return uniquePeers
+}
+
+func makeRaftDir(raftDir string) error {
+	if _, err := os.Stat(raftDir); err != nil {
+		if os.IsNotExist(err) {
+			err := os.MkdirAll(raftDir, os.ModePerm)
+			if err != nil {
+				log.G(_const.TODO).Errorf("makedir raftdir (%s) error: %+v", raftDir, err)
+				return err
+			}
+		} else {
+			log.G(_const.TODO).Errorf("stat raftdir (%s) error: %+v", raftDir, err)
+			return err
+		}
+	}
+	return nil
 }

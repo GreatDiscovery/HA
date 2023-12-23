@@ -1,7 +1,8 @@
 {
   "Debug": true,
-  "EnableSyslog": false,
   "ListenAddress": 8080,
+  "LogRetain": 10,
+  "EnableSyslog": false,
   "MySQLTopologyUser": "ci",
   "MySQLTopologyPassword": "ci",
   "BackendDB": "sqlite",

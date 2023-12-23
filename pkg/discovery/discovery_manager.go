@@ -12,18 +12,12 @@ import (
 )
 
 type Discovery struct {
-	RaftEnabled bool
-	RaftBind    string
-	RaftDataDir string
-	RaftNodes   []string
+	config.Configuration
 }
 
 func NewDiscoveryManager(configuration config.Configuration) service.DiscoveryManager {
 	return &Discovery{
-		RaftEnabled: configuration.RaftEnabled,
-		RaftBind:    configuration.RaftBind,
-		RaftDataDir: configuration.RaftDataDir,
-		RaftNodes:   configuration.RaftNodes,
+		configuration,
 	}
 }
 
@@ -49,7 +43,7 @@ func SetUp(ctx context.Context, config Discovery) error {
 	if err != nil {
 		return err
 	}
-	store := NewStore(config.RaftDataDir, config.RaftBind)
+	store := NewStore(config.Configuration)
 	peerNode := make([]string, 0)
 	for _, raftNode := range config.RaftNodes {
 		node, err := normalizedNode(raftNode)

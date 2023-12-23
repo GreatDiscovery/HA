@@ -6,6 +6,7 @@ require (
 	github.com/deckarep/golang-set/v2 v2.5.0
 	github.com/gin-gonic/gin v1.9.1
 	github.com/hashicorp/raft v1.6.0
+	github.com/hashicorp/raft-boltdb v0.0.0-20231211162105-6c830fa4535e
 	github.com/robfig/cron/v3 v3.0.0
 	github.com/sirupsen/logrus v1.9.3
 	github.com/stretchr/testify v1.8.4
@@ -13,6 +14,7 @@ require (
 
 require (
 	github.com/armon/go-metrics v0.4.1 // indirect
+	github.com/boltdb/bolt v1.3.1 // indirect
 	github.com/bytedance/sonic v1.10.2 // indirect
 	github.com/chenzhuoyu/base64x v0.0.0-20230717121745-296ad89f973d // indirect
 	github.com/chenzhuoyu/iasm v0.9.1 // indirect
@@ -26,6 +28,7 @@ require (
 	github.com/goccy/go-json v0.10.2 // indirect
 	github.com/hashicorp/go-hclog v1.5.0 // indirect
 	github.com/hashicorp/go-immutable-radix v1.0.0 // indirect
+	github.com/hashicorp/go-msgpack v0.5.5 // indirect
 	github.com/hashicorp/go-msgpack/v2 v2.1.1 // indirect
 	github.com/hashicorp/golang-lru v0.5.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect

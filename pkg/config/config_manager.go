@@ -15,11 +15,15 @@ type Configuration struct {
 	RaftBind      string
 	RaftDataDir   string
 	RaftNodes     []string
+	LogRetain     int
 }
 
-func (c *Configuration) check() error {
+func (c *Configuration) checkAndAssign() error {
 	if c.ListenAddress == 0 {
 		return errors.New("invalid ListenAddress")
+	}
+	if c.LogRetain == 0 {
+		c.LogRetain = 10
 	}
 	return nil
 }
@@ -39,7 +43,7 @@ func NewConfiguration(fileName string) (Configuration, error) {
 	if err != nil {
 		fmt.Println("read file failed", err)
 	}
-	err = config.check()
+	err = config.checkAndAssign()
 	if err != nil {
 		return config, err
 	}

@@ -11,6 +11,8 @@ import (
 	"strings"
 )
 
+var store *Store
+
 type Discovery struct {
 	config.Configuration
 }
@@ -43,7 +45,7 @@ func SetUp(ctx context.Context, config Discovery) error {
 	if err != nil {
 		return err
 	}
-	store := NewStore(config.Configuration)
+	store = NewStore(config.Configuration, *NewCommandApplier())
 	peerNode := make([]string, 0)
 	for _, raftNode := range config.RaftNodes {
 		node, err := normalizedNode(raftNode)

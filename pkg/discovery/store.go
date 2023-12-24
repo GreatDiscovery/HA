@@ -20,13 +20,20 @@ type Store struct {
 	raftBind  string
 	logRetain int
 	raft      *raft.Raft
+	applier   CommandApplier
 }
 
-func NewStore(configuration config.Configuration) *Store {
+type storeCommand struct {
+	Op    string `json:"op,omitempty"`
+	Value []byte `json:"value,omitempty"`
+}
+
+func NewStore(configuration config.Configuration, applier CommandApplier) *Store {
 	return &Store{
 		raftDir:   configuration.RaftDataDir,
 		raftBind:  configuration.RaftBind,
 		logRetain: configuration.LogRetain,
+		applier:   applier,
 	}
 }
 

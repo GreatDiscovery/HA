@@ -16,6 +16,11 @@ type Configuration struct {
 	RaftDataDir   string
 	RaftNodes     []string
 	LogRetain     int
+	MySQLHostName string
+	MySQLPort     int
+	MySQLUser     string
+	MySQLPassword string
+	MySQLDB       string
 }
 
 func (c *Configuration) checkAndAssign() error {
@@ -24,6 +29,21 @@ func (c *Configuration) checkAndAssign() error {
 	}
 	if c.LogRetain == 0 {
 		c.LogRetain = 10
+	}
+	if c.MySQLHostName == "" {
+		c.MySQLHostName = "127.0.0.1"
+	}
+	if c.MySQLPort == 0 {
+		c.MySQLPort = 3306
+	}
+	if c.MySQLUser == "" {
+		c.MySQLUser = "root"
+	}
+	if c.MySQLPassword == "" {
+		return errors.New("empty MySQLPassword")
+	}
+	if c.MySQLDB == "" {
+		return errors.New("empty MySQLDB")
 	}
 	return nil
 }

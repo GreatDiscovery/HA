@@ -20,6 +20,7 @@ func (f *fsm) Apply(l *raft.Log) interface{} {
 	return store.applier.ApplyCommand(c.Op, c.Value)
 }
 
+// Snapshot persist data
 func (f *fsm) Snapshot() (raft.FSMSnapshot, error) {
 	//TODO implement me
 	panic("implement me")

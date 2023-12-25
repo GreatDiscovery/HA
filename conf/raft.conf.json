@@ -1,13 +1,20 @@
 {
   "Debug": true,
   "ListenAddress": 8080,
+  "BackendDB": "mysql",
+  "MySQLHostName": "127.0.0.1",
+  "MySQLPort": 3306,
+  "MySQLUser": "root",
+  "MySQLPassword": "123456",
+  "MySQLDB": "test",
+  "MySQLConnectTimeoutSeconds": 1,
+
   "LogRetain": 10,
   "EnableSyslog": false,
   "MySQLTopologyUser": "ci",
   "MySQLTopologyPassword": "ci",
-  "BackendDB": "sqlite",
   "SQLite3DataFile": "/tmp/orchestrator-NODE_ID_PLACEHOLDER/orchestrator.sqlite3",
-  "MySQLConnectTimeoutSeconds": 1,
+
   "DefaultInstancePort": 3306,
   "DiscoverByShowSlaveHosts": true,
   "InstancePollSeconds": 1,

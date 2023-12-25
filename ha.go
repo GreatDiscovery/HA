@@ -5,6 +5,7 @@ import (
 	"flag"
 	"ha/pkg/config"
 	"ha/pkg/cron"
+	"ha/pkg/db"
 	"ha/pkg/discovery"
 	"ha/pkg/http"
 	"ha/pkg/log"
@@ -36,6 +37,13 @@ func main() {
 
 	// 3. process hook
 	go registerSignals(todo)
+
+	// 4. init db
+	err = db.SetUp(configuration)
+	if err != nil {
+		log.G(root).Errorf("db init failed error=%+v", err)
+		os.Exit(1)
+	}
 
 	cronManager := cron.NewCronManager(configuration)
 	cronManager.SetUp()

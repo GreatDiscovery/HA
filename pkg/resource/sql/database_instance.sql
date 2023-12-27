@@ -1,5 +1,6 @@
 CREATE TABLE IF NOT EXISTS database_instance
 (
+    id                    bigint                           not null auto_increment,
     hostname              varchar(128) CHARACTER SET ascii NOT NULL,
     port                  smallint(5) unsigned             NOT NULL,
     last_checked          timestamp                        NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -24,13 +25,10 @@ CREATE TABLE IF NOT EXISTS database_instance
     num_slave_hosts       int(10) unsigned                 NOT NULL,
     slave_hosts           text CHARACTER SET ascii         NOT NULL,
     cluster_name          varchar(128) CHARACTER SET ascii NOT NULL,
-    PRIMARY KEY (hostname, port)
+    create_time           datetime,
+    update_time           datetime,
+    PRIMARY KEY (id),
+    UNIQUE KEY hostname_port_uk (hostname, port),
+    INDEX cluster_name_idx (cluster_name)
     ) ENGINE = InnoDB
     DEFAULT CHARSET = ascii;
-
-# DROP INDEX cluster_name_idx ON database_instance;
-CREATE INDEX cluster_name_idx_database_instance ON database_instance (cluster_name);
-# DROP INDEX last_checked_idx ON database_instance;
-CREATE INDEX last_checked_idx_database_instance ON database_instance (last_checked);
-# DROP INDEX last_seen_idx ON database_instance;
-CREATE INDEX last_seen_idx_database_instance ON database_instance (last_seen);

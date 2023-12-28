@@ -3,6 +3,7 @@ package db
 import (
 	"fmt"
 	"gorm.io/driver/mysql"
+	"gorm.io/gen/examples/dal/query"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 	"gorm.io/gorm/schema"
@@ -20,6 +21,7 @@ func SetUp(config config.Configuration) error {
 		return err
 	}
 	db.NamingStrategy = schema.NamingStrategy{SingularTable: true}
+	query.SetDefault(db)
 	DB = db
 	return nil
 }

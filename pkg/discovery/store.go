@@ -16,11 +16,12 @@ import (
 )
 
 type Store struct {
-	raftDir   string
-	raftBind  string
-	logRetain int
-	raft      *raft.Raft
-	applier   CommandApplier
+	raftDir                    string
+	raftBind                   string
+	logRetain                  int
+	raft                       *raft.Raft
+	applier                    CommandApplier
+	snapshotDataCreatorApplier SnapshotDataCreatorApplier
 }
 
 type storeCommand struct {
@@ -28,12 +29,13 @@ type storeCommand struct {
 	Value []byte `json:"value,omitempty"`
 }
 
-func NewStore(configuration config.Configuration, applier CommandApplier) *Store {
+func NewStore(configuration config.Configuration, applier CommandApplier, snapshotCreatorApplier SnapshotDataCreatorApplier) *Store {
 	return &Store{
-		raftDir:   configuration.RaftDataDir,
-		raftBind:  configuration.RaftBind,
-		logRetain: configuration.LogRetain,
-		applier:   applier,
+		raftDir:                    configuration.RaftDataDir,
+		raftBind:                   configuration.RaftBind,
+		logRetain:                  configuration.LogRetain,
+		applier:                    applier,
+		snapshotDataCreatorApplier: snapshotCreatorApplier,
 	}
 }
 

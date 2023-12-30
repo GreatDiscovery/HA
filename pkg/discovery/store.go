@@ -21,7 +21,7 @@ type Store struct {
 	logRetain                  int
 	raft                       *raft.Raft
 	applier                    CommandApplier
-	snapshotDataCreatorApplier SnapshotDataCreatorApplier
+	snapshotDataCreatorApplier SnapshotCreatorApplier
 }
 
 type storeCommand struct {
@@ -29,7 +29,7 @@ type storeCommand struct {
 	Value []byte `json:"value,omitempty"`
 }
 
-func NewStore(configuration config.Configuration, applier CommandApplier, snapshotCreatorApplier SnapshotDataCreatorApplier) *Store {
+func NewStore(configuration config.Configuration, applier CommandApplier, snapshotCreatorApplier SnapshotCreatorApplier) *Store {
 	return &Store{
 		raftDir:                    configuration.RaftDataDir,
 		raftBind:                   configuration.RaftBind,

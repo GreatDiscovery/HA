@@ -7,7 +7,16 @@ type SnapshotCreatorApplier interface {
 	Restore(rc io.ReadCloser) error
 }
 
-type SnapshotDataCreatorApplier struct {
+type SnapshotDataCreatorApplier struct{}
+
+func (s *SnapshotDataCreatorApplier) GetData() (data []byte, err error) {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (s *SnapshotDataCreatorApplier) Restore(rc io.ReadCloser) error {
+	//TODO implement me
+	panic("implement me")
 }
 
 func NewSnapshotDataCreatorApplier() *SnapshotDataCreatorApplier {

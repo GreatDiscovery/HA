@@ -20,10 +20,10 @@ func (f *fsm) Apply(l *raft.Log) interface{} {
 	return store.applier.ApplyCommand(c.Op, c.Value)
 }
 
-// Snapshot persist data
+// Snapshot persist data, read data from database and then sink to file as one snapshot replica.
 func (f *fsm) Snapshot() (raft.FSMSnapshot, error) {
-	//TODO implement me
-	panic("implement me")
+	snapshot := newFsmSnapshot(f.snapshotDataCreatorApplier)
+	return snapshot, nil
 }
 
 func (f *fsm) Restore(snapshot io.ReadCloser) error {

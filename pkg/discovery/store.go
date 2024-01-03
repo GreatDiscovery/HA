@@ -42,6 +42,7 @@ func NewStore(configuration config.Configuration, applier CommandApplier, snapsh
 // SetUpRaft raft core ini method
 func (s *Store) SetUpRaft(peerNodes []string) error {
 	config := raft.DefaultConfig()
+	config.LocalID = raft.ServerID(s.raftBind)
 
 	addr, err := net.ResolveTCPAddr("tcp", s.raftBind)
 	if err != nil {
@@ -78,7 +79,7 @@ func (s *Store) SetUpRaft(peerNodes []string) error {
 		return err
 	}
 	s.raft = raftInstance
-	log.G(_const.TODO).Info("raft created")
+	log.G(_const.TODO).Infof("raft created raft=%+v", raftInstance)
 	return nil
 }
 

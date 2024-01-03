@@ -8,6 +8,14 @@
   "MySQLPassword": "123456",
   "MySQLDB": "test",
   "MySQLConnectTimeoutSeconds": 1,
+  "RaftEnabled": true,
+  "RaftDataDir": "/tmp/orchestrator-1",
+  "RaftBind": "localhost:10001",
+  "RaftNodes": [
+    "127.0.0.1:10007",
+    "127.0.0.1:10008",
+    "127.0.0.1:10009"
+  ],
 
   "LogRetain": 10,
   "EnableSyslog": false,
@@ -88,13 +96,5 @@
   "PreventCrossRegionMasterFailover": true,
   "MasterFailoverDetachReplicaMasterHost": false,
   "MasterFailoverLostInstancesDowntimeMinutes": 0,
-  "PostponeReplicaRecoveryOnLagMinutes": 0,
-  "RaftEnabled": true,
-  "RaftDataDir": "/tmp/orchestrator-1",
-  "RaftBind": "localhost:10001",
-  "RaftNodes": [
-    "127.0.0.1:10007",
-    "127.0.0.1:10008",
-    "127.0.0.1:10009"
-  ]
+  "PostponeReplicaRecoveryOnLagMinutes": 0
 }

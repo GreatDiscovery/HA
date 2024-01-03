@@ -55,7 +55,11 @@ func main() {
 
 	// 4. starting discovery
 	discoveryManager := discovery.NewDiscoveryManager(configuration)
-	discoveryManager.Discovery(root)
+	err = discoveryManager.Discovery(root)
+	if err != nil {
+		log.G(root).Errorf("discovery failed error=%+v", err)
+		os.Exit(1)
+	}
 
 	// 4. web server start
 	http.Setup(configuration.ListenAddress)

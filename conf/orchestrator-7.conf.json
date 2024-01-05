@@ -1,6 +1,6 @@
 {
   "Debug": true,
-  "ListenAddress": "808NODE_ID_PLACEHOLDER",
+  "ListenAddress": "8087",
   "BackendDB": "mysql",
   "MySQLHostName": "127.0.0.1",
   "MySQLPort": 3306,
@@ -9,8 +9,8 @@
   "MySQLDB": "test",
   "MySQLConnectTimeoutSeconds": 1,
   "RaftEnabled": true,
-  "RaftDataDir": "/tmp/orchestrator-NODE_ID_PLACEHOLDER",
-  "RaftBind": "localhost:1000NODE_ID_PLACEHOLDER",
+  "RaftDataDir": "/tmp/orchestrator-7",
+  "RaftBind": "localhost:10007",
   "RaftNodes": [
     "127.0.0.1:10007",
     "127.0.0.1:10008",
@@ -21,7 +21,7 @@
   "EnableSyslog": false,
   "MySQLTopologyUser": "ci",
   "MySQLTopologyPassword": "ci",
-  "SQLite3DataFile": "/tmp/orchestrator-NODE_ID_PLACEHOLDER/orchestrator.sqlite3",
+  "SQLite3DataFile": "/tmp/orchestrator-7/orchestrator.sqlite3",
 
   "DefaultInstancePort": 3306,
   "DiscoverByShowSlaveHosts": true,

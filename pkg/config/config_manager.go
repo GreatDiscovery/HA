@@ -9,7 +9,7 @@ import (
 
 type Configuration struct {
 	Debug         bool
-	ListenAddress int
+	ListenAddress string
 	ListenSocket  string
 	RaftEnabled   bool
 	RaftBind      string
@@ -24,7 +24,7 @@ type Configuration struct {
 }
 
 func (c *Configuration) checkAndAssign() error {
-	if c.ListenAddress == 0 {
+	if c.ListenAddress == "" {
 		return errors.New("invalid ListenAddress")
 	}
 	if c.LogRetain == 0 {
@@ -73,7 +73,7 @@ func NewConfiguration(fileName string) (Configuration, error) {
 func newConfiguration() *Configuration {
 	return &Configuration{
 		Debug:         false,
-		ListenAddress: 0,
+		ListenAddress: "",
 		ListenSocket:  "",
 		RaftEnabled:   false,
 	}

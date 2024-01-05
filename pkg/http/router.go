@@ -10,7 +10,7 @@ import (
 
 var db = make(map[string]string)
 
-func Setup(listenPort int) {
+func Setup(listenPort string) {
 	log.G(context.TODO()).Info("starting HTTP listener")
 	r := setupRouter()
 	// Listen and Server in 0.0.0.0:8080

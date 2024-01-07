@@ -11,6 +11,7 @@
   "RaftEnabled": true,
   "RaftDataDir": "/tmp/orchestrator-7",
   "RaftBind": "localhost:10007",
+  "RaftBootstrap": true,
   "RaftNodes": [
     "127.0.0.1:10007",
     "127.0.0.1:10008",

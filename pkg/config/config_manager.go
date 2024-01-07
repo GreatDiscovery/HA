@@ -12,6 +12,7 @@ type Configuration struct {
 	ListenAddress string
 	ListenSocket  string
 	RaftEnabled   bool
+	RaftBootstrap bool // Whether to bootstrap the Raft cluster
 	RaftBind      string
 	RaftDataDir   string
 	RaftNodes     []string

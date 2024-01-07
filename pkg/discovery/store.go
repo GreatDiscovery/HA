@@ -2,9 +2,11 @@ package discovery
 
 import (
 	"fmt"
+	"github.com/Jille/raftadmin"
 	mapset "github.com/deckarep/golang-set/v2"
 	"github.com/hashicorp/raft"
 	boltdb "github.com/hashicorp/raft-boltdb"
+	"google.golang.org/grpc"
 	"ha/pkg/config"
 	_const "ha/pkg/const"
 	"ha/pkg/log"
@@ -18,6 +20,7 @@ import (
 type Store struct {
 	raftDir                    string
 	raftBind                   string
+	raftBootstrap              bool
 	logRetain                  int
 	raft                       *raft.Raft
 	applier                    CommandApplier
@@ -33,6 +36,7 @@ func NewStore(configuration config.Configuration, applier CommandApplier, snapsh
 	return &Store{
 		raftDir:                    configuration.RaftDataDir,
 		raftBind:                   configuration.RaftBind,
+		raftBootstrap:              configuration.RaftBootstrap,
 		logRetain:                  configuration.LogRetain,
 		applier:                    applier,
 		snapshotDataCreatorApplier: snapshotCreatorApplier,
@@ -80,6 +84,27 @@ func (s *Store) SetUpRaft(peerNodes []string) error {
 	}
 	s.raft = raftInstance
 	log.G(_const.TODO).Infof("raft created raft=%+v", raftInstance)
+
+	// bootstrap node
+	if s.raftBootstrap {
+		cfg := raft.Configuration{
+			Servers: []raft.Server{
+				{
+					Suffrage: raft.Voter,
+					ID:       config.LocalID,
+					Address:  raft.ServerAddress(s.raftBind),
+				},
+			},
+		}
+		f := raftInstance.BootstrapCluster(cfg)
+		if err := f.Error(); err != nil {
+			return fmt.Errorf("raft.Raft.BootstrapCluster: %v", err)
+		}
+	}
+
+	// register admin
+	gServer := grpc.NewServer()
+	raftadmin.Register(gServer, raftInstance)
 	return nil
 }
 

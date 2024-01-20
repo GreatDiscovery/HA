@@ -2,6 +2,7 @@ package discovery
 
 import (
 	"fmt"
+	"github.com/Jille/raft-grpc-transport"
 	"github.com/Jille/raftadmin"
 	mapset "github.com/deckarep/golang-set/v2"
 	"github.com/hashicorp/raft"
@@ -52,10 +53,16 @@ func (s *Store) SetUpRaft(peerNodes []string) error {
 	if err != nil {
 		return err
 	}
-	transport, err := raft.NewTCPTransport(s.raftBind, addr, 3, 10*time.Second, os.Stderr)
+	tm, err := raft.NewTCPTransport(s.raftBind, addr, 3, 10*time.Second, os.Stderr)
 	if err != nil {
 		return err
 	}
+
+	// register admin raft
+	gServer := grpc.NewServer()
+	tm2 := transport.New(raft.ServerAddress(s.raftBind), []grpc.DialOption{grpc.WithInsecure()})
+	tm2.Register(gServer)
+
 	peers := uniquePeer(peerNodes)
 	fmt.Println(peers)
 
@@ -78,7 +85,7 @@ func (s *Store) SetUpRaft(peerNodes []string) error {
 		return err
 	}
 
-	raftInstance, err := raft.NewRaft(config, (*fsm)(s), ldb, sdb, snapshotStore, transport)
+	raftInstance, err := raft.NewRaft(config, (*fsm)(s), ldb, sdb, snapshotStore, tm)
 	if err != nil {
 		return err
 	}
@@ -102,8 +109,6 @@ func (s *Store) SetUpRaft(peerNodes []string) error {
 		}
 	}
 
-	// register admin
-	gServer := grpc.NewServer()
 	raftadmin.Register(gServer, raftInstance)
 	return nil
 }
